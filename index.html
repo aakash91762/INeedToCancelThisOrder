@@ -1,0 +1,357 @@
+<html>
+  <head>
+    <title> </title>
+  </head>
+  <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+
+  <body style="background-color: #eeeeee">
+    <style>
+      body {
+        font-family: "Inter";
+      }
+
+      /* Merged input and textarea styles into .input for consistency */
+      input,
+      .input {
+        width: 100%;
+        font-size: 12px;
+        border: 1px solid #eeeeee;
+        border-radius: 5px;
+        padding: 15px 10px;
+        margin: 5px 0px;
+        outline: 0;
+        height: 25px; /* Fixed height for single-line input */
+        vertical-align: middle;
+      }
+
+      label {
+        color: black;
+      }
+
+      p {
+        text-align: justify;
+      }
+
+      .container {
+        width: 95%;
+        background-color: #eeeeee;
+        font-size: 12px;
+        text-align: left;
+      }
+
+      .input:focus {
+        border: 1px solid #dd0150;
+      }
+
+      .custom-select {
+        margin: 5px 0px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #eeeeee;
+        height: 30px;
+        width: 100%;
+        font-size: 12px;
+        font-family: "Inter";
+      }
+
+      .custom-select:focus {
+        border: 1px solid #dd0150;
+      }
+
+      .submit {
+        background-color: #dd0150;
+        padding: 15px 15px 15px 15px;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        color: white;
+        height: 45px;
+      }
+
+      .submit:hover {
+        background-color: #f74586;
+      }
+
+      .result {
+        font-weight: bold;
+        margin: 10px 0px 20px;
+      }
+
+      select option:checked {
+        background-color: #dd0150 !important;
+        color: white !important;
+      }
+    </style>
+    <center>
+      <div class="container">
+        <label id="header"></label> <br />
+        <br />
+
+        <form id="myForm">
+          <label id="lOrderID"></label> <br />
+          <input
+            class="input"
+            id="OrderID"
+            type="text"
+            value=""
+            name="OrderID"
+            required
+          />
+          <div id="rOrderID" class="result"></div>
+
+          <label id="lemail"></label> <br />
+          <input
+            class="input"
+            id="email"
+            type="email"
+            value=""
+            name="email"
+            required
+          />
+          <div id="remail" class="result"></div>
+
+          <label id="lissue"></label><br />
+          <input
+            class="input"
+            id="issue"
+            type="text"
+            name="issue"
+            value=""
+            required
+          />
+          <div id="rissue" class="result"></div>
+
+          <label id="lcancelItems"></label><br />
+          <input
+            class="input"
+            id="cancelItems"
+            type="text"
+            name="cancelItems"
+            required
+          />
+          <div id="rcancelItems" class="result"></div>
+
+          <label id="ldetails"></label><br />
+          <input
+            class="input"
+            id="details"
+            type="text"
+            name="details"
+            required
+          />
+          <div id="rdetails" class="result"></div>
+
+          <input type="hidden" id="language" name="language" value="id" />
+          <button id="submit" class="submit"></button>
+        </form>
+      </div>
+    </center>
+    <script type="text/javascript">
+      let params = new URLSearchParams(window.location.search);
+      var language = params.get("language");
+      
+      // Update variable names to match the 5 required fields
+      var OrderID = params.get("OrderID");
+      var email = params.get("email");
+      var issue = params.get("issue");
+      var cancelItems = params.get("cancelItems");
+      var details = params.get("details");
+
+      // --- FUNCTION TO UPDATE URL ---
+      function updateUrlWithParams(data) {
+          const newParams = new URLSearchParams(window.location.search);
+          
+          // Set the new form values
+          for (const key in data) {
+              if (data.hasOwnProperty(key)) {
+                  newParams.set(key, data[key]);
+              }
+          }
+          
+          // Preserve the original 'language' parameter
+          if (language) {
+              newParams.set('language', language);
+          } else {
+              newParams.delete('language');
+          }
+          
+          // Replace current URL state without reloading the page
+          const newUrl = window.location.pathname + '?' + newParams.toString();
+          window.history.replaceState({ path: newUrl }, '', newUrl);
+        //   console.log("URL updated with form data.");
+      }
+      // -----------------------------
+
+      console.log({ issue, language });
+
+      // --- LANGUAGE SETTINGS ---
+      if (language == "id") {
+        // Placeholders (Indonesian)
+        document.getElementById("OrderID").placeholder = "Nomor Pesanan";
+        document.getElementById("email").placeholder = "Email Aktif";
+        document.getElementById("issue").placeholder = "Masalah";
+        document.getElementById("cancelItems").placeholder = "Tuliskan barang yang ingin kamu batalkan";
+        document.getElementById("details").placeholder = "Jelaskan masalahmu.";
+
+        // Labels (Indonesian)
+        // document.getElementById("header").innerHTML = "Lengkapi informasi berikut untuk melaporkan masalah.";
+        document.getElementById("lOrderID").innerHTML = "Nomor Pesanan:";
+        document.getElementById("lemail").innerHTML = "Email Aktif:";
+        document.getElementById("lissue").innerHTML = "Masalah:";
+        document.getElementById("lcancelItems").innerHTML = "Tuliskan item yang ingin Anda batalkan:";
+        document.getElementById("ldetails").innerHTML = "Jelaskan masalahmu:";
+        
+        document.getElementById("submit").innerHTML = "Kirim";
+        document.getElementById("language").setAttribute("value", "id");
+      } else {
+        // Placeholders (English)
+        document.getElementById("OrderID").placeholder = "Order Number";
+        document.getElementById("email").placeholder = "Active Email ID";
+        document.getElementById("issue").placeholder = "Issue";
+        document.getElementById("cancelItems").placeholder = "Write down the items you want to cancel";
+        document.getElementById("details").placeholder = "Tell us what’s going on.";
+
+        // Labels (English)
+        // document.getElementById("header").innerHTML = "Please share the information below to report the issue.";
+        document.getElementById("lOrderID").innerHTML = "Order Number:";
+        document.getElementById("lemail").innerHTML = "Active Email ID:";
+        document.getElementById("lissue").innerHTML = "Issue:";
+        document.getElementById("lcancelItems").innerHTML = "Write down items you want to cancel:";
+        document.getElementById("ldetails").innerHTML = "Tell us what's going on:";
+        
+        document.getElementById("submit").innerHTML = "Submit";
+        document.getElementById("language").setAttribute("value", "en");
+      }
+      
+      // --- URL PRE-FILLING LOGIC ---
+      if (OrderID) { document.getElementById("OrderID").value = OrderID; }
+      if (email) { document.getElementById("email").value = email; }
+      if (issue) { document.getElementById("issue").value = issue; }
+      if (cancelItems) { document.getElementById("cancelItems").value = cancelItems; }
+      if (details) { document.getElementById("details").value = details; }
+      
+      // --- POST MESSAGE FUNCTION ---
+      function myFunction(sendData) {
+        console.log(sendData);
+        let data = JSON.stringify(sendData);
+        window.parent.postMessage(
+          JSON.stringify({
+            event_code: "ym-client-event",
+            data: JSON.stringify({
+              event: {
+                code: new Date().getTime().toString(),
+                data,
+              },
+            }),
+          }),
+          "*"
+        );
+
+        console.log(
+          JSON.stringify({
+            event_code: "ym-client-event",
+            data: JSON.stringify({
+              event: {
+                code: new Date().getTime().toString(),
+                data,
+              },
+            }),
+          })
+        );
+      }
+      
+      // --- AUTO-SUBMIT LOGIC (URL-driven) ---
+      if (OrderID && email && issue && cancelItems && details) {
+        let o = document.getElementById("OrderID");
+        let e = document.getElementById("email");
+        let i = document.getElementById("issue");
+        let ca = document.getElementById("cancelItems");
+        let d = document.getElementById("details");
+        let s = document.getElementById("submit");
+
+        // Hide inputs (by changing type/visibility)
+        o.setAttribute("type", "hidden");
+        e.setAttribute("type", "hidden");
+        i.setAttribute("type", "hidden");
+        // For text inputs, we set type="hidden"
+        document.getElementById("cancelItems").setAttribute("type", "hidden");
+        document.getElementById("details").setAttribute("type", "hidden");
+
+        s.style.visibility = "hidden";
+
+        // Display the data as results
+        document.getElementById("rOrderID").innerHTML = OrderID;
+        document.getElementById("remail").innerHTML = email;
+        document.getElementById("rissue").innerHTML = issue;
+        document.getElementById("rcancelItems").innerHTML = cancelItems;
+        document.getElementById("rdetails").innerHTML = details;
+        
+        // Ensure values are set on hidden fields for final post
+        o.setAttribute("value", OrderID);
+        e.setAttribute("value", email);
+        i.setAttribute("value", issue);
+        document.getElementById("cancelItems").setAttribute("value", cancelItems);
+        document.getElementById("details").setAttribute("value", details);
+
+        let sendData = { OrderID, email, issue, cancelItems, details };
+        myFunction(sendData);
+      }
+
+      // --- MANUAL SUBMISSION HANDLER ---
+      document.getElementById('myForm').addEventListener('submit', function(event) {
+          event.preventDefault(); 
+          
+          const OrderID_val = document.getElementById("OrderID").value;
+          const email_val = document.getElementById("email").value;
+          const issue_val = document.getElementById("issue").value;
+          const cancelItems_val = document.getElementById("cancelItems").value;
+          const details_val = document.getElementById("details").value;
+
+          let sendData = { 
+              OrderID: OrderID_val, 
+              email: email_val, 
+              issue: issue_val, 
+              cancelItems: cancelItems_val, 
+              details: details_val 
+          };
+          
+          // Check if all are present before manual submission
+          if (OrderID_val && email_val && issue_val && cancelItems_val && details_val) {
+             myFunction(sendData);
+             
+             // Update the URL with the submitted form data 
+             updateUrlWithParams(sendData); 
+
+             // Logic to hide inputs and show submitted values
+             let o = document.getElementById("OrderID");
+             let e = document.getElementById("email");
+             let i = document.getElementById("issue");
+             let ca = document.getElementById("cancelItems");
+             let d = document.getElementById("details");
+             let s = document.getElementById("submit");
+
+             // Hide inputs
+             o.setAttribute("type", "hidden");
+             e.setAttribute("type", "hidden");
+             i.setAttribute("type", "hidden");
+             // For the new text fields, update type to hidden
+             ca.setAttribute("type", "hidden"); 
+             d.setAttribute("type", "hidden"); 
+             s.style.visibility = "hidden";
+
+             // Display the data as results
+             document.getElementById("rOrderID").innerHTML = OrderID_val;
+             document.getElementById("remail").innerHTML = email_val;
+             document.getElementById("rissue").innerHTML = issue_val;
+             document.getElementById("rcancelItems").innerHTML = cancelItems_val;
+             document.getElementById("rdetails").innerHTML = details_val;
+             
+          } else {
+             console.log("Form not submitted: One or more required fields are empty.");
+          }
+      });
+    </script>
+  </body>
+</html>

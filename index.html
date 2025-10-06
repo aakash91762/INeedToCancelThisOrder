@@ -112,7 +112,7 @@
           />
           <div id="remail" class="result"></div>
 
-          <label id="lissue"></label><br />
+          <!-- <label id="lissue"></label><br />
           <input
             class="input"
             id="issue"
@@ -121,9 +121,9 @@
             value=""
             required
           />
-          <div id="rissue" class="result"></div>
+          <div id="rissue" class="result"></div> -->
 
-          <label id="lcancelItems"></label><br />
+          <!-- <label id="lcancelItems"></label><br />
           <input
             class="input"
             id="cancelItems"
@@ -131,7 +131,7 @@
             name="cancelItems"
             required
           />
-          <div id="rcancelItems" class="result"></div>
+          <div id="rcancelItems" class="result"></div> -->
 
           <label id="ldetails"></label><br />
           <input
@@ -155,8 +155,8 @@
       // Update variable names to match the 5 required fields
       var OrderID = params.get("OrderID");
       var email = params.get("email");
-      var issue = params.get("issue");
-      var cancelItems = params.get("cancelItems");
+      // var issue = params.get("issue");
+      // var cancelItems = params.get("cancelItems");
       var details = params.get("details");
 
       // --- FUNCTION TO UPDATE URL ---
@@ -184,41 +184,45 @@
       }
       // -----------------------------
 
-      console.log({ issue, language });
+      // console.log({ issue, language });
 
       // --- LANGUAGE SETTINGS ---
       if (language == "id") {
+        document.getElementById("header").innerHTML =
+        "Mohon maaf atas ketidaknyamanannya. Lengkapi detail berikut untuk tim CS kami membantu menemukan solusi terbaik. Terima kasih!";
         // Placeholders (Indonesian)
         document.getElementById("OrderID").placeholder = "Nomor Pesanan";
         document.getElementById("email").placeholder = "Email Aktif";
-        document.getElementById("issue").placeholder = "Masalah";
-        document.getElementById("cancelItems").placeholder = "Tuliskan barang yang ingin kamu batalkan";
+        // document.getElementById("issue").placeholder = "Masalah";
+        // document.getElementById("cancelItems").placeholder = "Tuliskan barang yang ingin kamu batalkan";
         document.getElementById("details").placeholder = "Jelaskan masalahmu.";
 
         // Labels (Indonesian)
         // document.getElementById("header").innerHTML = "Lengkapi informasi berikut untuk melaporkan masalah.";
         document.getElementById("lOrderID").innerHTML = "Nomor Pesanan:";
         document.getElementById("lemail").innerHTML = "Email Aktif:";
-        document.getElementById("lissue").innerHTML = "Masalah:";
-        document.getElementById("lcancelItems").innerHTML = "Tuliskan item yang ingin Anda batalkan:";
+        // document.getElementById("lissue").innerHTML = "Masalah:";
+        // document.getElementById("lcancelItems").innerHTML = "Tuliskan item yang ingin Anda batalkan:";
         document.getElementById("ldetails").innerHTML = "Jelaskan masalahmu:";
         
         document.getElementById("submit").innerHTML = "Kirim";
         document.getElementById("language").setAttribute("value", "id");
       } else {
         // Placeholders (English)
+        document.getElementById("header").innerHTML =
+        "We're sorry for the inconvenience. Please fill out the form below so our CS team can help you find the best solution. Thank you!";
         document.getElementById("OrderID").placeholder = "Order Number";
         document.getElementById("email").placeholder = "Active Email ID";
-        document.getElementById("issue").placeholder = "Issue";
-        document.getElementById("cancelItems").placeholder = "Write down the items you want to cancel";
+        // document.getElementById("issue").placeholder = "Issue";
+        // document.getElementById("cancelItems").placeholder = "Write down the items you want to cancel";
         document.getElementById("details").placeholder = "Tell us what’s going on.";
 
         // Labels (English)
         // document.getElementById("header").innerHTML = "Please share the information below to report the issue.";
         document.getElementById("lOrderID").innerHTML = "Order Number:";
         document.getElementById("lemail").innerHTML = "Active Email ID:";
-        document.getElementById("lissue").innerHTML = "Issue:";
-        document.getElementById("lcancelItems").innerHTML = "Write down items you want to cancel:";
+        // document.getElementById("lissue").innerHTML = "Issue:";
+        // document.getElementById("lcancelItems").innerHTML = "Write down items you want to cancel:";
         document.getElementById("ldetails").innerHTML = "Tell us what's going on:";
         
         document.getElementById("submit").innerHTML = "Submit";
@@ -228,8 +232,8 @@
       // --- URL PRE-FILLING LOGIC ---
       if (OrderID) { document.getElementById("OrderID").value = OrderID; }
       if (email) { document.getElementById("email").value = email; }
-      if (issue) { document.getElementById("issue").value = issue; }
-      if (cancelItems) { document.getElementById("cancelItems").value = cancelItems; }
+      // if (issue) { document.getElementById("issue").value = issue; }
+      // if (cancelItems) { document.getElementById("cancelItems").value = cancelItems; }
       if (details) { document.getElementById("details").value = details; }
       
       // --- POST MESSAGE FUNCTION ---
@@ -263,20 +267,20 @@
       }
       
       // --- AUTO-SUBMIT LOGIC (URL-driven) ---
-      if (OrderID && email && issue && cancelItems && details) {
+      if (OrderID && email   && details) {
         let o = document.getElementById("OrderID");
         let e = document.getElementById("email");
-        let i = document.getElementById("issue");
-        let ca = document.getElementById("cancelItems");
+        // let i = document.getElementById("issue");
+        // let ca = document.getElementById("cancelItems");
         let d = document.getElementById("details");
         let s = document.getElementById("submit");
 
         // Hide inputs (by changing type/visibility)
         o.setAttribute("type", "hidden");
         e.setAttribute("type", "hidden");
-        i.setAttribute("type", "hidden");
+        // i.setAttribute("type", "hidden");
         // For text inputs, we set type="hidden"
-        document.getElementById("cancelItems").setAttribute("type", "hidden");
+        // document.getElementById("cancelItems").setAttribute("type", "hidden");
         document.getElementById("details").setAttribute("type", "hidden");
 
         s.style.visibility = "hidden";
@@ -284,18 +288,18 @@
         // Display the data as results
         document.getElementById("rOrderID").innerHTML = OrderID;
         document.getElementById("remail").innerHTML = email;
-        document.getElementById("rissue").innerHTML = issue;
-        document.getElementById("rcancelItems").innerHTML = cancelItems;
+        // document.getElementById("rissue").innerHTML = issue;
+        // document.getElementById("rcancelItems").innerHTML = cancelItems;
         document.getElementById("rdetails").innerHTML = details;
         
         // Ensure values are set on hidden fields for final post
         o.setAttribute("value", OrderID);
         e.setAttribute("value", email);
-        i.setAttribute("value", issue);
-        document.getElementById("cancelItems").setAttribute("value", cancelItems);
+        // i.setAttribute("value", issue);
+        // document.getElementById("cancelItems").setAttribute("value", cancelItems);
         document.getElementById("details").setAttribute("value", details);
 
-        let sendData = { OrderID, email, issue, cancelItems, details };
+        let sendData = { OrderID, email, details };
         myFunction(sendData);
       }
 
@@ -305,20 +309,20 @@
           
           const OrderID_val = document.getElementById("OrderID").value;
           const email_val = document.getElementById("email").value;
-          const issue_val = document.getElementById("issue").value;
-          const cancelItems_val = document.getElementById("cancelItems").value;
+          // const issue_val = document.getElementById("issue").value;
+          // const cancelItems_val = document.getElementById("cancelItems").value;
           const details_val = document.getElementById("details").value;
 
           let sendData = { 
               OrderID: OrderID_val, 
               email: email_val, 
-              issue: issue_val, 
-              cancelItems: cancelItems_val, 
+              // issue: issue_val, 
+              // cancelItems: cancelItems_val, 
               details: details_val 
           };
           
           // Check if all are present before manual submission
-          if (OrderID_val && email_val && issue_val && cancelItems_val && details_val) {
+          if (OrderID_val && email_val  && details_val) {
              myFunction(sendData);
              
              // Update the URL with the submitted form data 
@@ -327,25 +331,25 @@
              // Logic to hide inputs and show submitted values
              let o = document.getElementById("OrderID");
              let e = document.getElementById("email");
-             let i = document.getElementById("issue");
-             let ca = document.getElementById("cancelItems");
+            //  let i = document.getElementById("issue");
+            //  let ca = document.getElementById("cancelItems");
              let d = document.getElementById("details");
              let s = document.getElementById("submit");
 
              // Hide inputs
              o.setAttribute("type", "hidden");
              e.setAttribute("type", "hidden");
-             i.setAttribute("type", "hidden");
+            //  i.setAttribute("type", "hidden");
              // For the new text fields, update type to hidden
-             ca.setAttribute("type", "hidden"); 
+            //  ca.setAttribute("type", "hidden"); 
              d.setAttribute("type", "hidden"); 
              s.style.visibility = "hidden";
 
              // Display the data as results
              document.getElementById("rOrderID").innerHTML = OrderID_val;
              document.getElementById("remail").innerHTML = email_val;
-             document.getElementById("rissue").innerHTML = issue_val;
-             document.getElementById("rcancelItems").innerHTML = cancelItems_val;
+            //  document.getElementById("rissue").innerHTML = issue_val;
+            //  document.getElementById("rcancelItems").innerHTML = cancelItems_val;
              document.getElementById("rdetails").innerHTML = details_val;
              
           } else {
